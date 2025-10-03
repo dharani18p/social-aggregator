@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Aggregator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .platform-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .platform-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .results {
+            margin-top: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            min-height: 100px;
+        }
+
+        .results p {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        .results a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .results a:hover {
+            text-decoration: underline;
+        }
+
+        .loading {
+            color: #667eea;
+            font-style: italic;
+        }
+
+        .error {
+            color: #dc3545;
+            font-weight: 600;
+        }
+
+        .success {
+            color: #28a745;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🚀 Social Media Aggregator</h1>
+
+        <!-- GitHub Section -->
+        <div class="platform-section">
+            <h2>📊 GitHub Analytics</h2>
+
+            <div class="input-group">
+                <label for="github-owner">Repository Owner:</label>
+                <input type="text" id="github-owner" placeholder="e.g., facebook">
+            </div>
+
+            <div class="input-group">
+                <label for="github-repo">Repository Name:</label>
+                <input type="text" id="github-repo" placeholder="e.g., react">
+            </div>
+
+            <div class="input-group">
+                <label for="github-repos">Multiple Repos (comma-separated):</label>
+                <input type="text" id="github-repos" placeholder="e.g., react, react-native, jest">
+            </div>
+
+            <div class="button-group">
+                <button onclick="getTopIssues()">🔥 Top 5 Issues by Comments</button>
+                <button onclick="getTopAuthorGH()">👤 Top Issue Author</button>
+                <button onclick="getTopRepo()">📦 Repo with Most Open Issues</button>
+            </div>
+
+            <div class="results" id="github-results">
+                <p>Results will appear here...</p>
+            </div>
+        </div>
+
+        <!-- Reddit Section -->
+        <div class="platform-section">
+            <h2>🔴 Reddit Analytics</h2>
+
+            <div class="input-group">
+                <label for="reddit-subreddit">Subreddit Name:</label>
+                <input type="text" id="reddit-subreddit" placeholder="e.g., programming">
+            </div>
+
+            <div class="button-group">
+                <button onclick="getTopPosts()">⬆️ Top 5 Posts by Upvotes</button>
+                <button onclick="getTopAuthorRD()">👤 Top Author by Posts</button>
+            </div>
+
+            <div class="results" id="reddit-results">
+                <p>Results will appear here...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Test if JavaScript is working
+        console.log("JavaScript loaded successfully!");
+
+        // GitHub Functions
+        async function getTopIssues() {
+            console.log("Button clicked: Get Top Issues");
+            const owner = document.getElementById("github-owner").value.trim();
+            const repo = document.getElementById("github-repo").value.trim();
+            const resultsDiv = document.getElementById("github-results");
+
+            if (!owner || !repo) {
+                resultsDiv.innerHTML = "<p class='error'>❌ Please enter both owner and repo name.</p>";
+                return;
+            }
+
+            resultsDiv.innerHTML = "<p class='loading'>⏳ Loading top issues...</p>";
+
+            try {
+                const response = await fetch(`/api/github/top-issues?owner=${encodeURIComponent(owner)}&repo=${encodeURIComponent(repo)}`);
+                console.log("Response status:", response.status);
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log("Data received:", data);
+
+                if (data.length === 0) {
+                    resultsDiv.innerHTML = "<p>No open issues found.</p>";
+                } else {
+                    resultsDiv.innerHTML = "<h3>Top 5 Issues by Comments:</h3>" + data
+                        .map((issue, index) =>
+                            `<p>${index + 1}. <a href="${issue.url}" target="_blank">${issue.title}</a> <strong>(💬 ${issue.comments} comments)</strong></p>`
+                        )
+                        .join("");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                resultsDiv.innerHTML = `<p class='error'>❌ Failed to fetch data: ${error.message}</p>`;
+            }
+        }
+
+        async function getTopAuthorGH() {
+            console.log("Button clicked: Get Top Author");
+            const owner = document.getElementById("github-owner").value.trim();
+            const repo = document.getElementById("github-repo").value.trim();
+            const resultsDiv = document.getElementById("github-results");
+
+            if (!owner || !repo) {
+                resultsDiv.innerHTML = "<p class='error'>❌ Please enter both owner and repo name.</p>";
+                return;
+            }
+
+            resultsDiv.innerHTML = "<p class='loading'>⏳ Finding top author...</p>";
+
+            try {
+                const response = await fetch(`/api/github/top-author?owner=${encodeURIComponent(owner)}&repo=${encodeURIComponent(repo)}`);
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log("Data received:", data);
+
+                if (data.author === "N/A" || data.issue_count === 0) {
+                    resultsDiv.innerHTML = `<p>No issues found in this repository.</p>`;
+                } else {
+                    resultsDiv.innerHTML = `<p class="success">👤 Top Author: <strong>${data.author}</strong> with <strong>${data.issue_count}</strong> open issues.</p>`;
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                resultsDiv.innerHTML = `<p class='error'>❌ Failed to fetch data: ${error.message}</p>`;
+            }
+        }
+
+        async function getTopRepo() {
+            console.log("Button clicked: Get Top Repo");
+            const owner = document.getElementById("github-owner").value.trim();
+            const repos = document.getElementById("github-repos").value.trim();
+            const resultsDiv = document.getElementById("github-results");
+
+            if (!owner || !repos) {
+                resultsDiv.innerHTML = "<p class='error'>❌ Please enter owner and comma-separated repos.</p>";
+                return;
+            }
+
+            resultsDiv.innerHTML = "<p class='loading'>⏳ Finding top repo...</p>";
+
+            try {
+                const response = await fetch(`/api/github/top-repo?owner=${encodeURIComponent(owner)}&repos=${encodeURIComponent(repos)}`);
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log("Data received:", data);
+                resultsDiv.innerHTML = `<p class="success">📦 Top Repo: <strong>${data.repo}</strong> with <strong>${data.open_issues}</strong> open issues.</p>`;
+            } catch (error) {
+                console.error("Error:", error);
+                resultsDiv.innerHTML = `<p class='error'>❌ Failed to fetch data: ${error.message}</p>`;
+            }
+        }
+
+        // Reddit Functions
+        async function getTopPosts() {
+            console.log("Button clicked: Get Top Posts");
+            const subreddit = document.getElementById("reddit-subreddit").value.trim();
+            const resultsDiv = document.getElementById("reddit-results");
+
+            if (!subreddit) {
+                resultsDiv.innerHTML = "<p class='error'>❌ Please enter a subreddit name.</p>";
+                return;
+            }
+
+            resultsDiv.innerHTML = "<p class='loading'>⏳ Loading top posts...</p>";
+
+            try {
+                const response = await fetch(`/api/reddit/top-posts?subreddit=${encodeURIComponent(subreddit)}`);
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log("Data received:", data);
+
+                if (data.length === 0) {
+                    resultsDiv.innerHTML = "<p>No posts found.</p>";
+                } else {
+                    resultsDiv.innerHTML = "<h3>Top 5 Posts by Upvotes:</h3>" + data
+                        .map((post, index) =>
+                            `<p>${index + 1}. ${post.title} by <strong>${post.author}</strong> <strong>(⬆ ${post.upvotes} upvotes)</strong></p>`
+                        )
+                        .join("");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                resultsDiv.innerHTML = `<p class='error'>❌ Failed to fetch data: ${error.message}</p>`;
+            }
+        }
+
+        async function getTopAuthorRD() {
+            console.log("Button clicked: Get Top Reddit Author");
+            const subreddit = document.getElementById("reddit-subreddit").value.trim();
+            const resultsDiv = document.getElementById("reddit-results");
+
+            if (!subreddit) {
+                resultsDiv.innerHTML = "<p class='error'>❌ Please enter a subreddit name.</p>";
+                return;
+            }
+
+            resultsDiv.innerHTML = "<p class='loading'>⏳ Finding top author...</p>";
+
+            try {
+                const response = await fetch(`/api/reddit/top-author?subreddit=${encodeURIComponent(subreddit)}`);
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log("Data received:", data);
+
+                if (data.author === "N/A" || data.posts === 0) {
+                    resultsDiv.innerHTML = `<p>No posts found in this subreddit.</p>`;
+                } else {
+                    resultsDiv.innerHTML = `<p class="success">👤 Top Author: <strong>${data.author}</strong> with <strong>${data.posts}</strong> posts today.</p>`;
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                resultsDiv.innerHTML = `<p class='error'>❌ Failed to fetch data: ${error.message}</p>`;
+            }
+        }
+
+        // Test button click
+        console.log("All functions loaded. Try clicking a button!");
+    </script>
+</body>
+
+</html>

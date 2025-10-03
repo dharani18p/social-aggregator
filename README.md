@@ -17,11 +17,12 @@ Aggregate and analyze data from GitHub and Reddit in one place.
 
 ## 📸 Demo
 
-<div align="center">
-  <img src="https://github.com/yourusername/social-media-aggregator/assets/screenshot1.png" alt="Main Interface" width="700"/>
-  <p><i>Clean and intuitive interface for social media analytics</i></p>
-</div>
 
+<div align="center">
+Home Page
+<img src="https://github.com/user-attachments/assets/59df991c-23d4-40e9-96cd-978eecc8bf4b" alt="Home Page" width="800"/> <p><i>The main dashboard showing GitHub and Reddit analytics.</i></p>
+Output / Analytics
+<img src="https://github.com/user-attachments/assets/31ae4ea9-8d88-4a31-8a51-ecab0c18e469" alt="Analytics Output" width="800"/> <p><i>Aggregated insights with top issues, top authors, and trending posts.</i></p> </div>
 ---
 
 ## ✨ Features

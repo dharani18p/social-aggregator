@@ -19,10 +19,28 @@ Aggregate and analyze data from GitHub and Reddit in one place.
 
 
 <div align="center">
-Home Page
-<img src="https://github.com/user-attachments/assets/59df991c-23d4-40e9-96cd-978eecc8bf4b" alt="Home Page" width="800"/> <p><i>The main dashboard showing GitHub and Reddit analytics.</i></p>
-Output / Analytics
-<img src="https://github.com/user-attachments/assets/31ae4ea9-8d88-4a31-8a51-ecab0c18e469" alt="Analytics Output" width="800"/> <p><i>Aggregated insights with top issues, top authors, and trending posts.</i></p> </div>
+
+<table>
+  <tr>
+    <td align="center">
+      <strong>Home Page</strong><br><br>
+      <a href="https://github.com/user-attachments/assets/59df991c-23d4-40e9-96cd-978eecc8bf4b">
+        <img src="https://github.com/user-attachments/assets/59df991c-23d4-40e9-96cd-978eecc8bf4b" alt="Home Page" width="300">
+      </a>
+    </td>
+    <td align="center">
+      <strong>Analytics Output</strong><br><br>
+      <a href="https://github.com/user-attachments/assets/31ae4ea9-8d88-4a31-8a51-ecab0c18e469">
+        <img src="https://github.com/user-attachments/assets/31ae4ea9-8d88-4a31-8a51-ecab0c18e469" alt="Analytics Output" width="300">
+      </a>
+    </td>
+  </tr>
+</table>
+
+<p><i>Click on the images to view full-size screenshots</i></p>
+
+</div>
+
 ---
 
 ## ✨ Features

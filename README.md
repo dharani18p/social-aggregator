@@ -42,16 +42,6 @@ Aggregate and analyze data from GitHub and Reddit in one place.
 
 ---
 
-## 🎬 GIF Demo (Optional)
-
-A short GIF demonstrating the workflow:
-
-<div align="center">
-<img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" alt="Demo GIF" width="500"/>
-<p><i>Shows logging in, fetching GitHub/Reddit analytics, and output</i></p>
-</div>
-
----
 
 ## ✨ Features
 

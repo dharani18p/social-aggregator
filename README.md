@@ -85,7 +85,7 @@ cd social-media-aggregator
 pip install -r requirements.txt
 
 # Run application
-python app.py
+python main.py
 ```
 
 

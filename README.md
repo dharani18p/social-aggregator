@@ -17,7 +17,6 @@ Aggregate and analyze data from GitHub and Reddit in one place.
 
 ## 📸 Demo
 
-
 <div align="center">
 
 <table>
@@ -43,17 +42,39 @@ Aggregate and analyze data from GitHub and Reddit in one place.
 
 ---
 
+## 🎬 GIF Demo (Optional)
+
+A short GIF demonstrating the workflow:
+
+<div align="center">
+<img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" alt="Demo GIF" width="500"/>
+<p><i>Shows logging in, fetching GitHub/Reddit analytics, and output</i></p>
+</div>
+
+---
+
 ## ✨ Features
 
 ### 📊 GitHub Analytics
-- 🔥 **Top Issues** - Find most discussed issues.
-- 👤 **Top Authors** - Identify active contributors.
-- 📦 **Repo Comparison** - Compare multiple repositories.
+- 🔥 **Top 5 Issues by Comments**  
+- 👤 **Author with Most Issues Across All Repos**  
+- 📦 **Repo with the Most Open Issues**
 
 ### 🔴 Reddit Analytics
-- ⬆️ **Top Posts** - Get trending posts by upvotes.
-- 👥 **Top Authors** - Find most active users.
-- 📈 **Real-time Data** - Live subreddit analytics.
+- ⬆️ **Top 5 Posts by Upvotes**  
+- 👥 **Author with the Highest Total Upvotes Across Posts**  
+- 📈 **Real-time Subreddit Analytics**
+
+---
+
+## 🛠️ Tech Stack
+
+| Category | Technology |
+|----------|------------|
+| Backend  | Python, Flask |
+| APIs     | GitHub REST API, Reddit JSON API |
+| Frontend | HTML, CSS, JavaScript |
+| HTTP Client | requests |
 
 ---
 
@@ -75,5 +96,3 @@ pip install -r requirements.txt
 
 # Run application
 python app.py
-
-The application will be available at `http://127.0.0.1:5000`.

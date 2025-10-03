@@ -87,14 +87,25 @@ pip install -r requirements.txt
 # Run application
 python app.py
 
+## 🌐 API Endpoints
 
-🌐 API Endpoints
-GitHub Endpoints
-Endpoint	Method	Parameters	Description
-/api/github/top-issues	GET	owner, repo	Returns top 5 issues by comment count
-/api/github/top-author	GET	owner, repos	Returns the author with most issues across all specified repos
-/api/github/top-repo	GET	owner, repos	Returns the repo with the most open issues
-Reddit Endpoints
-Endpoint	Method	Parameters	Description
-/api/reddit/top-posts	GET	subreddit	Returns top 5 posts by upvotes
-/api/reddit/top-author	GET	subreddit	Returns the author with the highest total upvotes across their posts
+### GitHub Endpoints
+
+| Endpoint | Method | Parameters | Description |
+|----------|--------|------------|-------------|
+| `/api/github/top-issues` | GET | `owner`, `repo` | Returns **top 5 issues** by comment count |
+| `/api/github/top-author` | GET | `owner`, `repos` | Returns the **author with most issues** across all specified repos |
+| `/api/github/top-repo` | GET | `owner`, `repos` | Returns the **repo with the most open issues** |
+
+#### Example Usage:
+
+```bash
+# Top 5 issues for facebook/react
+curl "http://127.0.0.1:5000/api/github/top-issues?owner=facebook&repo=react"
+
+# Author with most issues across repos
+curl "http://127.0.0.1:5000/api/github/top-author?owner=microsoft&repos=vscode,typescript"
+
+# Repo with most open issues
+curl "http://127.0.0.1:5000/api/github/top-repo?owner=microsoft&repos=vscode,typescript"
+
